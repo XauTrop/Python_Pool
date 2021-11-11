@@ -13,7 +13,7 @@ for f in file_list:
 	txt = Image.new('RGBA', image.size, (255,255,255,0))
 	font = ImageFont.truetype("arial.ttf", 12)
 	d = ImageDraw.Draw(txt)    
-	d.text((610, 470), "by J. Llopart", fill=(0, 0, 0, 255), font=font)
+	d.text((610, 470), "by XXX", fill=(0, 0, 0, 255), font=font)
 	combined = Image.alpha_composite(image, txt)
 	combined.save(f)
 
