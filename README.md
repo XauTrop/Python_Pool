@@ -2,7 +2,7 @@
 
 This repository has been inpired by the recent volcanic eruption in La Palma (Canary Islands).
 
-Here I will be adding a series of script to download, plot and make gifs of earthquakes locations
+Here I will be adding a series of script to download, plot and make gifs of earthquakes locations, cumulative magnitude, SO2 evolution, ....
 ### The files structure is:
 1. Authomatic download of the earthquakes data from the IGN (Spain) earthquake repository https://www.ign.es/web/ign/portal/sis-catalogo-terremotos
 2. Transformation from Lat Lon to UTM projection
