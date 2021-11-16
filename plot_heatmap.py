@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 
 
 eq_file = os.getcwd() + '\\IGN_catalogue.csv'
-## Load So2 data from PEVOLCA dayly reports
+## Load So2 data from PEVOLCA daily reports
 SO2_file = 'SO2.txt'
 df_SO = pd.read_csv(SO2_file, delimiter='\t')
 
