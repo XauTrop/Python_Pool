@@ -1,11 +1,8 @@
 import pandas as pd
-# import plotly.express as px
-from pyproj import Proj
 import os
 import download_data_ign as ddi
 from datetime import datetime
 import plotly.graph_objects as go
-# from numpy import arange
 from plotly.subplots import make_subplots
 
 
@@ -70,18 +67,12 @@ def clean_table(file):
 	return df
 
 data = clean_table (eq_file)
-## Reproject Lat Lon data to UTM
-ZoneNo = "28" #Manually input, or calcuated from Lat Lon
-myProj = Proj("+proj=utm +zone="+ZoneNo+",+north +ellps=WGS84 +datum=WGS84 +units=m +no_defs") #north for north hemisphere
-Lat = data['Latitud'].tolist()
-Lon = data['Longitud'].tolist()
 Depth_km = [i*-1 for i in data['Prof'].tolist()]
 Mag = data['Mag'].tolist()
 size = [i**2.3 for i in Mag]
 date = data['Fecha'].tolist()
-UTMx, UTMy = myProj(Lon, Lat)
-df_sct = pd.DataFrame(list(zip(date, UTMx, UTMy, Depth_km, Mag, size)),
-					  columns=['Date', 'X', 'Y', 'Z', 'Mag', 'size'])
+df_sct = pd.DataFrame(list(zip(date, Depth_km, Mag, size)),
+					  columns=['Date', 'Z', 'Mag', 'size'])
 # Release memory from data dataframe
 data = {}
 energy =[]
