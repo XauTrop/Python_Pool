@@ -12,7 +12,7 @@ SO2_file = 'SO2.txt'
 df_SO = pd.read_csv(SO2_file, delimiter='\t')
 
 ## Download EQ data from IGN catalogue ##
-# ddi.download_data()
+ddi.download_data()
 
 ## Parse string values to float
 def parse_to_float(v):
@@ -78,7 +78,7 @@ data = {}
 energy =[]
 us = sorted(set(df_sct['Date'].tolist()))
 unique_days_total = sorted(us, key=lambda x: datetime.strptime(x, '%d/%m/%Y'))
-unique_days = unique_days_total[1:-1]
+unique_days = unique_days_total[1:]
 for z in range(0,41):
 	zets = []
 	egys =[]
@@ -106,26 +106,56 @@ fig = make_subplots(
 	row_heights=[0.2, 0.8],
 	vertical_spacing = 0.05,
 	specs=[[{"type": "bar"}], [{"type": "heatmap"}]],
-	subplot_titles=(u'SO\u2082 Release', 'Cumulative Earthquake Magnitude'))
+	)
 
 fig.add_trace(
 	go.Bar(x=df_SO['Day'], y=df_SO['SO2'],
 		showlegend=False,
 		marker_color = 'tomato'),
 		row=1, col=1)
+fig.add_vrect(x0="07/09/2021", x1="22/09/2021", 
+		annotation_text="No Data", annotation_position="top left",
+		fillcolor="grey", opacity=0.25, line_width=0)
+fig.add_vrect(x0="29/10/2021", x1="29/10/2021",
+		fillcolor="grey", opacity=0.25, line_width=0)
 
 fig .add_trace(
 	go.Heatmap(z=energy,
 		x=unique_days,
-		colorscale='Hot',
-		showscale=False),
+		colorscale='hot'),
 		row=2, col=1)
 # edit axes
 fig.update_layout(
 	xaxis2={'title' : 'Days', 'tickangle' : -45},
 	yaxis={'title': u'SO\u2082 (tons)', 'showgrid' : True, 'gridcolor': 'lightgray'},
 	yaxis2={'title': 'Depth (km)', 'autorange': 'reversed'},)
-fig.write_image("images/Qlt_evolution.png", width=1664, height=891)
+
+fig.add_annotation(dict(font=dict(color='black',size=16),
+					x=0.8,
+					y=0.795,
+					showarrow=False,
+					text= 'Cumulative Earthquake Magnitude',
+					textangle=0,
+					xanchor='left',
+					xref="paper",
+					yref="paper"))
+fig.add_annotation(dict(font=dict(color='black',size=16),
+					x=0.92,
+					y=1.035,
+					showarrow=False,
+					text= u'SO\u2082 Release',
+					textangle=0,
+					xanchor='left',
+					xref="paper",
+					yref="paper"))
+fig.add_annotation(dict(font=dict(color='black',size=13),
+					x=0.695,
+					y=0.9,
+					showarrow=False,
+					text= 'No Data',
+					textangle=-90,
+					xanchor='left',
+					xref="paper",
+					yref="paper"))
+fig.write_image("images/Qlt_evolution.png", width=1664, height=891, scale=2)
 fig.show()
-
-
